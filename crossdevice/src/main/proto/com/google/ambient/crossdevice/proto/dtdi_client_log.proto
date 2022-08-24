@@ -1,0 +1,127 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto2";
+
+package ambient.crossdevice.logs;
+
+import "google/protobuf/duration.proto";
+
+import "com/google/ambient/crossdevice/proto/dtdi_client_enums.proto";
+
+option java_outer_classname = "ClientLogProtos";
+option java_package = "com.google.ambient.crossdevice.logs.proto";
+
+// Top-level log proto for all D2DI client-side logging (SDK, Client,Module).
+// Next Tag: 18
+message DtdiClientLog {
+  // Package name of the client app associated with this log event.
+  optional string client_package_name = 1;
+
+  // Version of the client app associated with this log event.
+  optional string client_package_version = 2;
+
+  // Build type of the client app associated with this log event.
+  optional BuildType client_package_build_type = 3;
+
+  // The user type (prod, modulefood, test, etc) producing this log.
+  optional UserType user_type = 17;
+
+  // If specified, describes the parent DtdiClientLog that this DtdiClientLog
+  // belongs to.
+  // Example:
+  //   Session's correlation_id passed into discovery API.
+  optional bytes parent_correlation_id = 14;
+
+  // Identifier for the shared experience across devices.
+  optional bytes correlation_id = 4;
+
+  // Ephemeral Device ID for a device involved in an experience.
+  // Each device will use a new ID for each correlation_id.
+  optional bytes ephemeral_device_id = 5;
+
+  // True if correlation_id and ephemeral_device_id were regenerated due to
+  // the 24-hour time limit imposed on the identifiers.
+  optional bool identifiers_regenerated = 6;
+
+  // This ID is replaced by providing a `parent_correlation_id`.
+  optional int64 flow_id = 7;
+
+  // Information about the current battery state.
+  optional BatteryStatistics battery_statistics = 15;
+
+  // Information about the current battery state.
+  optional VersionInfo version_info = 16;
+
+  reserved 8, 9, 11, 12, 13;
+  optional SessionsLog sessions_log = 10;
+}
+
+// Version information for D2DI and GMS Core.
+// Next Tag: 4
+message VersionInfo {
+  // GmsCore apk version code. E.g. 221480044
+  //
+  // Clearcut.deidentifiedLogger does log the GMS Version Code, but Firelog w/
+  // the Clearcut backend does not. We log this value with both FirelogTransport
+  // and ClearcutTransport.
+  optional int64 gms_version_code = 1;
+
+  // GmsCore cl number. E.g. 368160137
+  optional int64 gms_cl_number = 2;
+
+  // Value of com.google.ambient.dtdi.SDK_VERSION_NAME from the SDK's manifest.
+  optional string dtdi_sdk_version_code = 3;
+}
+
+// Information about the state of a battery on the device.
+// Next Tag: 3
+message BatteryStatistics {
+  // Percent of charge from 0 to 100.
+  optional int32 charge_percentage = 1;
+  // True if the device is plugged into a power source: AC, USB, DOCK, WIRELESS.
+  optional bool is_plugged_in = 2;
+}
+
+// Top-level log proto for Sessions API events.
+// Next Tag: 4
+message SessionsLog {
+  optional string session_id = 1;
+
+  optional SessionEvent session_event = 2;
+
+  // Results for completing sending a payload.
+  // Next Tag: 6
+  message SessionEvent {
+    reserved 3;
+
+    optional Result result = 1;
+    optional SessionAction session_action = 2;
+    // Hash of the Application Session Tag used in this session. There is one
+    // tag per session and it's not indented to be unique. The Application
+    // Session Tag is a 3p identifier used to classify different types of
+    // Sessions within their application. This hash is the result of base64
+    // encoding of the SHA-256 hash of the application session tag (which is a
+    // UTF-8 string).
+    optional string application_session_tag_hash = 4;
+    optional google.protobuf.Duration duration = 5;
+  }
+}
+
+// General purpose result type.
+// Next Tag: 3
+message Result {
+  optional ResultCode result_code = 1;
+  optional ErrorCode error_code = 2;
+}
