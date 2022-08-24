@@ -1,0 +1,79 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package com.google.ambient.crossdevice.sessions;
+
+option java_package = "com.google.ambient.crossdevice.sessions";
+option java_outer_classname = "SessionProto";
+
+// Proto represetation of Session ID. This is stored as a proto now to support
+// further extensions to our SessionID concept.
+message SessionId {
+  string id = 1;
+}
+
+message SessionMetadataRequest {
+  SessionId session_id_field = 1;
+}
+
+message SessionMetadataResponse {
+  SessionMetadata metadata = 1;
+  SessionState.State session_state = 2;
+  bool cancelled = 3;
+}
+
+message OnSessionActionCompleteRequest {}
+
+message OnSessionActionCompleteResponse {
+  SessionId session_id_field = 1;
+}
+
+message OnCancelSessionActionRequest {
+  string reason = 1;
+}
+
+message OnSessionActionRequestMessage {
+  SessionId session_id_field = 1;
+
+  oneof RequestMessage {
+    OnSessionActionCompleteRequest on_session_action_complete_request = 2;
+    OnCancelSessionActionRequest on_cancel_session_action_request = 3;
+  }
+}
+
+// Proto representation of Session State.
+// State is nested here for easy proto-consumption in C++
+// (SessionState::SESSION_CREATED).
+message SessionState {
+  enum State {
+    UNKNOWN = 0;
+    SESSION_CREATED = 1;
+    SESSION_TRANSFER = 2;
+    SESSION_SHARE = 3;
+  }
+}
+
+message SessionMetadata {
+  // Proto representation of Application Session Tag. This is stored as a proto
+  // now to support further extensions to our application Session Tag concept.
+  message ApplicationSessionTag {
+    string tag = 1;
+  }
+
+  SessionId session_id_field = 1;
+  ApplicationSessionTag application_session_tag_field = 2;
+  reserved 3;  // device_filter
+}

@@ -1,0 +1,107 @@
+// Copyright 2022 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto2";
+
+package ambient.crossdevice.logs;
+
+option java_outer_classname = "ClientLogEnums";
+option java_package = "com.google.ambient.crossdevice.logs.proto";
+
+// Type of build of a package.
+// Next Tag: 3
+enum BuildType {
+  BUILD_TYPE_UNKNOWN = 0;
+  // Indicates that the client application using the D2DI SDK was built in debug
+  // mode. For Android, this means android:debuggable="true" was set in the
+  // AndroidManifest.
+  BUILD_TYPE_DEBUG = 1;
+  // Indicates that the client application using the D2DI SDK was not built in
+  // debug mode.
+  BUILD_TYPE_PROD = 2;
+}
+
+// Type of user using D2DI.
+// Next Tag: 4
+enum UserType {
+  USER_TYPE_UNKNOWN = 0;
+  // User type for users that do not fall under any other categories.
+  USER_TYPE_PROD = 1;
+  // User type for Mobly tests.
+  USER_TYPE_MOBLY = 2;
+  // User type for test group members.
+  USER_TYPE_TESTER = 3;
+}
+
+// Result of an operation.
+// Next Tag: 4
+enum ResultCode {
+  RESULT_CODE_UNKNOWN = 0;
+  RESULT_CODE_SUCCESS = 1;
+  RESULT_CODE_ERROR = 2;
+  RESULT_CODE_CANCELLED = 3;
+}
+
+// Class of error that occurred for RESULT_ERROR.
+// Next Tag: 22
+enum ErrorCode {
+  ERROR_CODE_UNKNOWN = 0;
+  ERROR_CODE_MEDIA_TRANSFER_NO_ROUTE = 1;
+  ERROR_CODE_MEDIA_TRANSFER_NULL_MEDIA_ROUTER = 2;
+  ERROR_CODE_MEDIA_TRANSFER_NO_ELIGIBLE_MEDIA_CONTROLLER = 3;
+  ERROR_CODE_WAKEUP_FEATURE_UNAVAILABLE = 4;
+  ERROR_CODE_WAKEUP_BAD_SIGNATURE = 5;
+  ERROR_CODE_WAKEUP_NO_MATCH = 6;
+  ERROR_CODE_WAKEUP_AMBIGUOUS_MATCH = 7;
+  ERROR_CODE_WAKEUP_NEEDS_CONFIRMATION = 8;
+  ERROR_CODE_WAKEUP_UNRECOGNIZED = 9;
+  ERROR_CODE_SESSIONS_INTERNAL_ERROR = 10;
+  ERROR_CODE_SESSIONS_INVALID_SESSION = 11;
+  ERROR_CODE_SESSIONS_OPERATION_NOT_ALLOWED = 12;
+  ERROR_CODE_SESSIONS_INVALID_PARTICIPANT = 13;
+  ERROR_CODE_SESSIONS_INTERNAL_CONNECTION_CLOSED = 14;
+  ERROR_CODE_SESSIONS_CONNECTION_FAILURE = 15;
+  ERROR_CODE_SESSIONS_UNEXPECTED_STATE = 16;
+  ERROR_CODE_SESSIONS_ACTION_CANCELLED = 17;
+  ERROR_CODE_SESSIONS_NO_DEVICES_SELECTED = 18;
+  ERROR_CODE_SESSIONS_HANDLE_INVALIDATED = 19;
+  ERROR_CODE_SESSIONS_INVALID_START_COMPONENT_REQUEST = 20;
+  ERROR_CODE_SESSIONS_NOT_INITIALIZED = 21;
+}
+
+// Action taken by the Sessions API.
+// Next Tag: 21
+enum SessionAction {
+  SESSION_ACTION_UNKNOWN = 0;
+  SESSION_ACTION_CREATE = 1;
+  SESSION_ACTION_DESTROY = 2;
+  SESSION_ACTION_TRANSFER_INITIATED = 3;
+  SESSION_ACTION_TRANSFER_CONNECTED = 4;
+  SESSION_ACTION_TRANSFER_COMPLETE = 5;
+  SESSION_ACTION_TAKE_INITIATED = 6;
+  SESSION_ACTION_TAKE_COMPLETE = 7;
+  SESSION_ACTION_SHARE_INITIATED = 8;
+  SESSION_ACTION_PARTICIPANT_JOINED = 9;
+  SESSION_ACTION_PARTICIPANT_DEPARTED = 10;
+  SESSION_ACTION_JOIN = 11;
+  SESSION_ACTION_TRANSFER_FAILURE = 12;
+  SESSION_ACTION_TAKE_FAILURE = 13;
+  SESSION_ACTION_TRANSFER_CANCELLED_LOCAL = 14;
+  SESSION_ACTION_TRANSFER_CANCELLED_REMOTE = 15;
+  SESSION_ACTION_TAKE_CANCELLED_LOCAL = 16;
+  SESSION_ACTION_TAKE_CANCELLED_REMOTE = 17;
+  SESSION_ACTION_PRIMARY_SHARE_CANCELLED_LOCAL = 18;
+  SESSION_ACTION_SECONDARY_SHARE_CANCELLED_LOCAL = 19;
+  SESSION_ACTION_SECONDARY_SHARE_CANCELLED_REMOTE = 20;
+}
