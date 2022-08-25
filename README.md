@@ -50,9 +50,9 @@ Head over to our
 [developer guide](https://developer.android.com/guide/topics/connectivity/cross-device-sdk/overview)
 to get started and try out the Developer Preview of the Cross device SDK for
 Android. Make sure to check out our Rock Paper Scissor sample app
-([Kotlin](https://github.com/android/connectivity-samples/CrossDeviceRockPaperScissorsKotlin)
+([Kotlin](https://github.com/android/connectivity-samples/tree/main/CrossDeviceRockPaperScissorsKotlin)
 and
-[Java](https://github.com/android/connectivity-samples/CrossDeviceRockPaperScissors))
+[Java](https://github.com/android/connectivity-samples/tree/main/CrossDeviceRockPaperScissors))
 on GitHub for a demonstration on how to work with the various APIs and our
 Google I/O ‘22
 [Multi-device development session](https://www.youtube.com/watch?v=H6UxTnghkMw)
